@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>MCBE Flat World Generator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  </head>
+  <body>
+    <button class="toggle-btn"><i class="fas fa-cog"></i></button>
+    <div class="sidebar">
+      <button class="close-btn"><i class="fas fa-times"></i></button>
+      <h1><i class="fas fa-tools"></i> World Settings</h1>
+      <div class="form-group">
+        <label for="world-name"><i class="fas fa-home"></i> World Name</label>
+        <input type="text" id="world-name" placeholder="Created By MCBE Flat World Generator">
+      </div>
+      <div class="form-group">
+        <label for="seed"><i class="fas fa-dice"></i> Seed</label>
+        <input type="text" id="seed" placeholder="Random">
+      </div>
+      <div class="form-group">
+        <label for="biome" class="required"><i class="fas fa-tree"></i> Biome</label>
+        <select id="biome">
+          <option value="" disabled selected>Select a biome</option>
+          <option value="plains">Plains</option>
+          <option value="desert">Desert</option>
+        </select>
+      </div>
+    </div>
+    <div class="main-content">
+      <p>Adjust settings from the menu on the left</p>
+    </div>
+    
+    <script src="js/main.js"></script>
+  </body>
+</html>

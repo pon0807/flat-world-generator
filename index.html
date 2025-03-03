@@ -8,29 +8,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   </head>
   <body>
-    <button class="toggle-btn"><i class="fas fa-cog"></i></button>
     <div class="sidebar">
-      <button class="close-btn"><i class="fas fa-times"></i></button>
       <h1><i class="fas fa-tools"></i> World Settings</h1>
       <div class="form-group">
         <label for="world-name"><i class="fas fa-home"></i> World Name</label>
-        <input type="text" id="world-name" placeholder="Created By MCBE Flat World Generator">
+        <input type="text" id="world-name" placeholder="Flat World">
       </div>
       <div class="form-group">
         <label for="seed"><i class="fas fa-dice"></i> Seed</label>
-        <input type="text" id="seed" placeholder="Random">
+        <div class="seed-control">
+          <input type="text" id="seed" placeholder="Random Seed">
+          <button class="random-seed-btn"><i class="fas fa-dice"></i></button>
+        </div>
       </div>
       <div class="form-group">
         <label for="biome" class="required"><i class="fas fa-tree"></i> Biome</label>
         <select id="biome">
-          <option value="" disabled selected>Select a biome</option>
-          <option value="plains">Plains</option>
+          <option value="plains" selected>Plains</option>
           <option value="desert">Desert</option>
         </select>
       </div>
     </div>
     <div class="main-content">
-      <p>Adjust settings from the menu on the left</p>
+      <button class="add-layer-btn"><i class="fas fa-plus"></i> Add Layer</button>
+      <div class="layer-container">
+        <div class="layer-header">
+          <h2>Layers</h2>
+          <button class="reset-layers-btn"><i class="fas fa-trash"></i> Reset</button>
+        </div>
+        <div class="layer-list" id="layer-list">
+          <div class="top-drop-zone"></div>
+        </div>
+      </div>
     </div>
     
     <script src="js/main.js"></script>

@@ -3,17 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const resetLayersBtn = document.querySelector('.reset-layers-btn');
     const seedInput = document.getElementById('seed');
     const randomSeedBtn = document.querySelector('.random-seed-btn');
+    const downloadBtn = document.querySelector('.download-btn');
     const layerList = document.getElementById('layer-list');
     let draggedItem = null;
 
-    // ランダムシード生成ボタンの動作
     randomSeedBtn.addEventListener('click', () => {
-        // -2,147,483,648 から 2,147,483,647 の範囲でランダムな整数を生成（Minecraftのシード値範囲）
         const randomSeed = Math.floor(Math.random() * 4294967296) - 2147483648;
         seedInput.value = randomSeed;
     });
 
-    // レイヤーを追加（top-drop-zoneの下に追加）
     addLayerBtn.addEventListener('click', () => {
         const layerItem = document.createElement('div');
         layerItem.classList.add('layer-item');
@@ -31,20 +29,47 @@ document.addEventListener('DOMContentLoaded', () => {
         const topDropZone = layerList.querySelector('.top-drop-zone');
         topDropZone.after(layerItem);
 
-        // 削除ボタンのイベントリスナー
         layerItem.querySelector('.delete-layer-btn').addEventListener('click', () => {
             layerItem.remove();
         });
     });
 
-    // すべてのレイヤーをリセット
     resetLayersBtn.addEventListener('click', () => {
         const topDropZone = layerList.querySelector('.top-drop-zone');
         layerList.innerHTML = '';
         layerList.appendChild(topDropZone);
     });
 
-    // ドラッグ＆ドロップの処理
+    downloadBtn.addEventListener('click', () => {
+        const worldName = document.getElementById('world-name').value || 'Flat World';
+        const seed = seedInput.value || 'Random Seed';
+        const biome = document.getElementById('biome').value;
+        const layers = Array.from(layerList.querySelectorAll('.layer-item')).map(item => {
+            return {
+                block: item.querySelector('select').value,
+                height: parseInt(item.querySelector('input').value) || 1
+            };
+        });
+
+        const config = {
+            worldName: worldName,
+            seed: seed,
+            biome: biome,
+            layers: layers
+        };
+
+        const jsonString = JSON.stringify(config, null, 2);
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${worldName || 'flat_world'}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
     layerList.addEventListener('dragstart', (e) => {
         draggedItem = e.target.closest('.layer-item');
         if (draggedItem) {
@@ -68,20 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const topDropZone = layerList.querySelector('.top-drop-zone');
         const mouseY = e.clientY;
 
-        // すべてのドロップターゲットをクリア
         allItems.forEach(item => {
             item.classList.remove('drop-target-before', 'drop-target-after');
         });
         topDropZone.classList.remove('drop-target');
 
-        // top-drop-zoneをチェック
         const topRect = topDropZone.getBoundingClientRect();
         if (mouseY >= topRect.top && mouseY <= topRect.bottom) {
             topDropZone.classList.add('drop-target');
             return;
         }
 
-        // その他のレイヤーをチェック
         let dropTarget = null;
         let isBefore = false;
 
@@ -96,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 一番下にドロップする場合
         if (!dropTarget && allItems.length && mouseY > allItems[allItems.length - 1].getBoundingClientRect().bottom) {
             dropTarget = allItems[allItems.length - 1];
             isBefore = false;
@@ -124,20 +145,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const topDropZone = layerList.querySelector('.top-drop-zone');
         const mouseY = e.clientY;
 
-        // すべてのドロップターゲットをクリア
         allItems.forEach(item => {
             item.classList.remove('drop-target-before', 'drop-target-after');
         });
         topDropZone.classList.remove('drop-target');
 
-        // top-drop-zoneへのドロップ
         const topRect = topDropZone.getBoundingClientRect();
         if (mouseY >= topRect.top && mouseY <= topRect.bottom) {
             topDropZone.after(draggedItem);
             return;
         }
 
-        // その他のレイヤーへのドロップ
         let dropTarget = null;
         let isBefore = false;
 

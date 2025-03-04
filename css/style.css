@@ -6,6 +6,11 @@ body {
     height: 100vh;
     overflow: hidden;
     color: #333;
+    /* ズーム無効化のための追加 */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    touch-action: manipulation; /* タッチデバイスでのズームを制限 */
 }
 
 /* サイドバーのデザイン */
@@ -76,7 +81,7 @@ input::placeholder {
 .seed-control {
     display: flex;
     align-items: center;
-    gap: 10px; /* 入力欄とボタンの間隔 */
+    gap: 10px;
 }
 
 .random-seed-btn {
@@ -185,9 +190,33 @@ input::placeholder {
 .layer-list {
     margin-top: 30px;
     position: relative;
-    max-height: 100%;
+    max-height: calc(100% - 60px); /* ダウンロードボタンのスペースを考慮 */
     overflow-y: auto;
     flex-grow: 1;
+}
+
+/* ダウンロードボタン */
+.download-btn {
+    position: absolute;
+    bottom: 30px;
+    left: calc(900px + 60px); /* .layer-containerのmax-width + 両側のpadding分 */
+    padding: 12px 60px; /* 幅を40pxから60pxに拡大 */
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.download-btn i {
+    margin-right: 10px;
+}
+
+.download-btn:hover {
+    background-color: #1976D2;
 }
 
 .layer-item {
